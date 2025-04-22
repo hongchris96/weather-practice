@@ -1,5 +1,8 @@
 # weather app practice
 
+## Website
+- `https://wezaripoto.netlify.app/`
+
 ## Tech Stack
 - Frontend Only: JavaScript
 
