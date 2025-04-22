@@ -13,13 +13,40 @@ export function getSampleWeather() {
     })
 }
 
-// Need to fix params
 export function getWeather(lat, lon, timezone) {
+    const dailyParams = [
+        "weather_code",
+        "temperature_2m_max",
+        "temperature_2m_min",
+        "apparent_temperature_max",
+        "apparent_temperature_min",
+        "precipitation_sum"
+    ].join(",")
+    const hourlyParams = [
+        "temperature_2m",
+        "apparent_temperature",
+        "precipitation",
+        "weather_code",
+        "wind_speed_10m"
+    ].join(",")
+    const currentParams = [
+        "temperature_2m",
+        "wind_speed_10m",
+        "weather_code",
+        "precipitation"
+    ].join(",")
     return axios.get("https://api.open-meteo.com/v1/forecast", {
         params: {
             latitude: lat,
             longitude: lon,
-            timezone: timezone
+            timezone: timezone,
+            timeformat: "unixtime",
+            wind_speed_unit: "mph",
+            temperature_unit: "fahrenheit",
+            precipitation_unit: "inch",
+            daily: dailyParams,
+            hourly: hourlyParams,
+            current: currentParams
         }
     }).then(({data}) => {
         return {

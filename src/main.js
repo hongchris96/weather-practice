@@ -2,19 +2,31 @@ import { ICON_MAP } from "./iconMap"
 import { getWeather, getSampleWeather } from "./weather"
 import "./style.css"
 
-// getWeather(10, 10, Intl.DateTimeFormat().resolvedOptions().timeZone).then(
-//     res => {
-//         console.log(res)
-//     }
-// )
+navigator.geolocation.getCurrentPosition(positionSuccess, positionError)
 
+function positionSuccess({ coords }) {
+    getWeather(
+        coords.latitude,
+        coords.longitude,
+        Intl.DateTimeFormat().resolvedOptions().timeZone
+    )
+        .then(renderWeather)
+        .catch(e => {
+            console.error(e)
+            alert("Error Retrieving Weather")
+        })
+}
 
-getSampleWeather()
-    .then(renderWeather)
-    .catch(e => {
-        console.error(e)
-        alert("Error Boop")
-    })
+function positionError() {
+    alert("Error getting your location. Please allow us to use your location and refresh the page")
+}
+
+// getSampleWeather()
+//     .then(renderWeather)
+//     .catch(e => {
+//         console.error(e)
+//         alert("Error Boop")
+//     })
 
 
 function renderWeather({current, daily, hourly}) {
